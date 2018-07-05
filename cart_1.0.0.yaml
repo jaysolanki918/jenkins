@@ -1,0 +1,1140 @@
+---
+swagger: "2.0"
+host: "$(catalog.host)"
+schemes:
+- "https"
+info:
+  description: "Cart Operations (add, delete, update and get)"
+  title: "Cart"
+  version: "1.0.0"
+  termsOfService: ""
+  contact:
+    name: "API Docs"
+    url: ""
+  license:
+    name: ""
+    url: ""
+  x-ibm-name: "cart"
+basePath: "/v1"
+paths:
+  /carts/{cart_id}:
+    get:
+      description: "<p>Get Cart Details</p> Given the cartId, get the Cart Details"
+      summary: "Cart detail "
+      operationId: "Get Cart Detail"
+      tags:
+      - "Get Cart"
+      produces:
+      - "application/json; charset=utf-8"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Cart"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized access"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "This is Mandatory parameter. Authorization Bearer {token}; token\
+          \ obtained using grant_type as 'authorization_code' (in case of User authentication)\
+          \ or 'client_credentials' (App credential based authorization) using <a\
+          \ href='https://opencommerce.apigee.com/oauth/apis/post/token'>/token</a>\
+          \ Oauth API"
+        type: "string"
+        required: true
+      - name: "cart_id"
+        in: "path"
+        description: "Cart identifier"
+        type: "string"
+        required: true
+    put:
+      description: "<p>Update Cart</p> Update Cart Details"
+      summary: "Update Cart detail "
+      operationId: "Update Cart"
+      tags:
+      - "Update Cart"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json; charset=utf-8"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/CartResponse"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized access"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "This is Mandatory parameter. Authorization Bearer {token}; token\
+          \ obtained using grant_type as 'authorization_code' (in case of User authentication)\
+          \ or 'client_credentials' (App credential based authorization) using <a\
+          \ href='https://opencommerce.apigee.com/oauth/apis/post/token'>/token</a>\
+          \ Oauth API"
+        type: "string"
+        required: true
+      - name: "Content-Type"
+        in: "header"
+        description: "Content-Type application/json"
+        type: "string"
+        default: "application/json"
+        required: true
+      - name: "cart_id"
+        in: "path"
+        description: "Cart identifier"
+        type: "string"
+        required: true
+      - name: "CartDetail"
+        in: "body"
+        description: "Cart details"
+        schema:
+          $ref: "#/definitions/NewCart"
+        required: true
+    delete:
+      description: "<p>Delete Cart</p> Delete cart, given the cart id"
+      summary: "Delete Cart  "
+      operationId: "Delete Cart"
+      tags:
+      - "Delete Cart"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json; charset=utf-8"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/CartResponse"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized access"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "This is Mandatory parameter. Authorization Bearer {token}; token\
+          \ obtained using grant_type as 'authorization_code' (in case of User authentication)\
+          \ or 'client_credentials' (App credential based authorization) using <a\
+          \ href='https://opencommerce.apigee.com/oauth/apis/post/token'>/token</a>\
+          \ Oauth API"
+        type: "string"
+        required: true
+      - name: "Content-Type"
+        in: "header"
+        description: "Content-Type application/json"
+        type: "string"
+        default: "application/json"
+        required: true
+      - name: "cart_id"
+        in: "path"
+        description: "Cart identifier"
+        type: "string"
+        required: true
+  /carts:
+    post:
+      description: "<p>Create a new cart</p>  If the user is logged-in (Authorization\
+        \ Bearer Token), the cart will be associated with the user "
+      summary: "Create a new Cart"
+      operationId: "Create Cart"
+      tags:
+      - "Create Cart"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json; charset=utf-8"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/CartResponse"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized access"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "This is Mandatory parameter. Authorization Bearer {token}; token\
+          \ obtained using grant_type as 'authorization_code' (in case of User authentication)\
+          \ or 'client_credentials' (App credential based authorization) using <a\
+          \ href='https://opencommerce.apigee.com/oauth/apis/post/token'>/token</a>\
+          \ Oauth API"
+        type: "string"
+        required: true
+      - name: "Content-Type"
+        in: "header"
+        description: "Content-Type application/json"
+        type: "string"
+        default: "application/json"
+        required: true
+      - name: "CartDetail"
+        in: "body"
+        description: "Cart details"
+        schema:
+          $ref: "#/definitions/NewCart"
+        required: true
+  /carts/{cart_id}/items:
+    post:
+      description: "<p>Adds items to the cart</p>"
+      summary: "Add one or more items to the cart or updates the quantity if already\
+        \ present"
+      operationId: "Add Cart Items"
+      tags:
+      - "Add Cart Item"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json; charset=utf-8"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Cart"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized access"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "This is Mandatory parameter. Authorization Bearer {token}; token\
+          \ obtained using grant_type as 'authorization_code' (in case of User authentication)\
+          \ or 'client_credentials' (App credential based authorization) using <a\
+          \ href='https://opencommerce.apigee.com/oauth/apis/post/token'>/token</a>\
+          \ Oauth API"
+        type: "string"
+        required: true
+      - name: "Content-Type"
+        in: "header"
+        description: "Content-Type application/json"
+        type: "string"
+        default: "application/json"
+        required: false
+      - name: "cart_id"
+        in: "path"
+        description: "Cart identifier"
+        type: "string"
+        required: true
+      - name: "CartItems"
+        in: "body"
+        description: "Items details"
+        schema:
+          $ref: "#/definitions/CartItems"
+        required: true
+    put:
+      description: "<p>Updates quantity of item already in the cart</p>"
+      summary: "Updates the quantity of an item in the cart if present, else adds\
+        \ the item"
+      operationId: "Update Cart Items"
+      tags:
+      - "Update Cart Item"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json; charset=utf-8"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Cart"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized access"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "This is Mandatory parameter. Authorization Bearer {token}; token\
+          \ obtained using grant_type as 'authorization_code' (in case of User authentication)\
+          \ or 'client_credentials' (App credential based authorization) using <a\
+          \ href='https://opencommerce.apigee.com/oauth/apis/post/token'>/token</a>\
+          \ Oauth API"
+        type: "string"
+        required: true
+      - name: "Content-Type"
+        in: "header"
+        description: "Content-Type application/json"
+        type: "string"
+        default: "application/json"
+        required: false
+      - name: "cart_id"
+        in: "path"
+        description: "Cart identifier"
+        type: "string"
+        required: true
+      - name: "CartItems"
+        in: "body"
+        description: "Items details"
+        schema:
+          $ref: "#/definitions/CartItems"
+        required: true
+    delete:
+      description: "<p>Delete items from the cart</p>"
+      summary: "Removes completely the specified items from the cart if present"
+      operationId: "Delete Cart Item"
+      tags:
+      - "Delete Cart Item"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json; charset=utf-8"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Cart"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized access"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "This is Mandatory parameter. Authorization Bearer {token}; token\
+          \ obtained using grant_type as 'authorization_code' (in case of User authentication)\
+          \ or 'client_credentials' (App credential based authorization) using <a\
+          \ href='https://opencommerce.apigee.com/oauth/apis/post/token'>/token</a>\
+          \ Oauth API"
+        type: "string"
+        required: true
+      - name: "Content-Type"
+        in: "header"
+        description: "Content-Type application/json"
+        type: "string"
+        default: "application/json"
+        required: false
+      - name: "cart_id"
+        in: "path"
+        description: "Cart identifier"
+        type: "string"
+        required: true
+securityDefinitions:
+  oauth-1:
+    type: "oauth2"
+    description: ""
+    flow: "implicit"
+    scopes: {}
+    authorizationUrl: ""
+definitions:
+  NewCart:
+    type: "object"
+    description: "New Cart or Wishlist"
+    properties:
+      session_id:
+        type: "string"
+        description: "A placeholder for apps to store any information that will help\
+          \ in mapping the user, in case of User not logged-in"
+      cart_items:
+        type: "array"
+        description: "Items & quantity chosen"
+        items:
+          type: "object"
+          properties:
+            sku_id:
+              type: "string"
+              description: "Unique Identifier of the SKU chosen"
+            quantity:
+              type: "integer"
+              description: "Quantity added"
+      user_id:
+        type: "string"
+        description: "Customer Identifier; if not present, user-id associated with\
+          \ the accessToken will be used"
+      created_at:
+        type: "integer"
+        format: "int64"
+        description: "Created date/time"
+      updated_at:
+        type: "integer"
+        format: "int64"
+        description: "Updated date/time"
+  CartItems:
+    type: "object"
+    description: "Items to be updated in the cart"
+    properties:
+      cart_items:
+        type: "array"
+        description: "Items & quantity chosen"
+        items:
+          type: "object"
+          properties:
+            sku_id:
+              type: "string"
+              description: "Unique Identifier of the SKU chosen"
+            quantity:
+              type: "integer"
+              description: "Quantity added"
+  CartResponse:
+    type: "object"
+    description: "Cart or Wishlist"
+    properties:
+      cart_id:
+        type: "string"
+        description: "A unique identifier for the cart. Shall not be present in POST\
+          \ request"
+      session_id:
+        type: "string"
+        description: "A placeholder for apps to store any information that will help\
+          \ in mapping the user."
+      cart_items:
+        type: "array"
+        description: "Items & quantity chosen"
+        items:
+          $ref: "#/definitions/Item"
+      user_id:
+        type: "string"
+        description: "Customer Identifier; if not present, user-id associated with\
+          \ the accessToken will be used"
+      created_at:
+        type: "integer"
+        format: "int64"
+        description: "Created date/time"
+      updated_at:
+        type: "integer"
+        format: "int64"
+        description: "Updated date/time"
+  Cart:
+    type: "object"
+    description: "Cart or Wishlist"
+    properties:
+      cart_id:
+        type: "string"
+        description: "A unique identifier for the cart. Shall not be present in POST\
+          \ request"
+      session_id:
+        type: "string"
+        description: "A placeholder for apps to store any information that will help\
+          \ in mapping the user."
+      cart_items:
+        type: "array"
+        description: "Items & quantity chosen"
+        items:
+          $ref: "#/definitions/Item"
+      total_base_price:
+        type: "number"
+        format: "float"
+        description: "Total base price"
+      total_discount:
+        type: "number"
+        format: "float"
+        description: "Total discounts"
+      total_price:
+        type: "number"
+        format: "float"
+        description: "Total price in base currency"
+      user_id:
+        type: "string"
+        description: "Customer Identifier; if not present, user-id associated with\
+          \ the accessToken will be used"
+      created_at:
+        type: "integer"
+        format: "int64"
+        description: "Created date/time"
+      updated_at:
+        type: "integer"
+        format: "int64"
+        description: "Updated date/time"
+  Item:
+    type: "object"
+    description: "Product Item chosen in Cart/WishList"
+    properties:
+      sku_id:
+        type: "string"
+        description: "Unique Identifier of the SKU chosen"
+      name:
+        type: "string"
+        description: "Sku name"
+      sku_url:
+        type: "string"
+        description: "URL to retrieve Sku detail"
+      price:
+        type: "number"
+        format: "float"
+        description: "Price of the product in base currency"
+      currency:
+        type: "string"
+        description: "The base currency (e.g. USD, GBP, INR, etc.)"
+      discount:
+        type: "number"
+        format: "float"
+        description: "The discount on the price (amount or percentage)"
+      total_price:
+        type: "number"
+        format: "float"
+        description: "Total price of the product per item"
+      image:
+        type: "array"
+        description: "An array of image objects"
+        items:
+          type: "string"
+          description: "Image Url"
+      quantity:
+        type: "integer"
+        description: "Quantity added"
+x-ibm-configuration:
+  enforced: true
+  testable: true
+  phase: "realized"
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - operation-switch:
+        title: "operation-switch"
+        case:
+        - operations:
+          - "Create Cart"
+          execute:
+          - map:
+              title: "RequestMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/NewCart"
+                  variable: "request.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/NewCart"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.session_id"
+                from: "input.session_id"
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "quantity"
+                  from: "quantity"
+              - set: "output.user_id"
+                from: "input.user_id"
+              version: "1.0.0"
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "POST"
+              cache-response: "no-cache"
+              cache-ttl: 900
+              version: "1.0.0"
+              target-url: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-retail/backend-cart-api/carts"
+          - map:
+              title: "ResponseMap"
+              inputs:
+                input:
+                  schema:
+                    description: ""
+                    type: "object"
+                    properties:
+                      session_id:
+                        type: "string"
+                        name: "session_id"
+                      cart_items:
+                        type: "array"
+                        items:
+                          properties:
+                            quantity:
+                              type: "string"
+                              name: "quantity"
+                            sku_id:
+                              type: "string"
+                              name: "sku_id"
+                          type: "object"
+                        name: "cart_items"
+                      user_id:
+                        type: "string"
+                        name: "user_id"
+                      created_at:
+                        type: "number"
+                        name: "created_at"
+                      updated_at:
+                        type: "number"
+                        name: "updated_at"
+                      cart_id:
+                        type: "string"
+                        name: "cart_id"
+                    example: "{\r\n  \"session_id\": \"ddsd-ssd-sd-sds\",\r\n  \"\
+                      cart_items\": [\r\n    {\r\n      \"quantity\": \"1\",\r\n \
+                      \     \"sku_id\": \"S1368433309753\"\r\n    }\r\n  ],\r\n  \"\
+                      user_id\": \"user123\",\r\n  \"created_at\": 1513749665211,\r\
+                      \n  \"updated_at\": 1513749665211,\r\n  \"cart_id\": \"2a3e1920-e54b-11e7-b0fe-0e75f8b45832\"\
+                      \r\n}"
+                  variable: "message.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    description: ""
+                    type: "object"
+                    properties:
+                      session_id:
+                        type: "string"
+                        name: "session_id"
+                      cart_items:
+                        type: "array"
+                        items:
+                          properties:
+                            quantity:
+                              type: "string"
+                              name: "quantity"
+                            sku_id:
+                              type: "string"
+                              name: "sku_id"
+                          type: "object"
+                        name: "cart_items"
+                      user_id:
+                        type: "string"
+                        name: "user_id"
+                      created_at:
+                        type: "number"
+                        name: "created_at"
+                      updated_at:
+                        type: "number"
+                        name: "updated_at"
+                      cart_id:
+                        type: "string"
+                        name: "cart_id"
+                    example: "{\r\n  \"session_id\": \"ddsd-ssd-sd-sds\",\r\n  \"\
+                      cart_items\": [\r\n    {\r\n      \"quantity\": \"1\",\r\n \
+                      \     \"sku_id\": \"S1368433309753\"\r\n    }\r\n  ],\r\n  \"\
+                      user_id\": \"user123\",\r\n  \"created_at\": 1513749665211,\r\
+                      \n  \"updated_at\": 1513749665211,\r\n  \"cart_id\": \"2a3e1920-e54b-11e7-b0fe-0e75f8b45832\"\
+                      \r\n}"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.session_id"
+                from: "input.session_id"
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "quantity"
+                  from: "quantity"
+              - set: "output.user_id"
+                from: "input.user_id"
+              - set: "output.created_at"
+                from: "input.created_at"
+              - set: "output.updated_at"
+                from: "input.updated_at"
+              - set: "output.cart_id"
+                from: "input.cart_id"
+              version: "1.0.0"
+        - operations:
+          - "Get Cart Detail"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "GET"
+              cache-response: "no-cache"
+              cache-ttl: 900
+              version: "1.0.0"
+              target-url: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-retail/backend-cart-api/carts/$(request.parameters.cart_id)"
+          - map:
+              title: "ResponseMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.cart_id"
+                from: "input.cart_id"
+              - set: "output.session_id"
+                from: "input.session_id"
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "name"
+                  from: "name"
+                - set: "sku_url"
+                  from: "sku_url"
+                - set: "price"
+                  from: "price"
+                - set: "currency"
+                  from: "currency"
+                - set: "discount"
+                  from: "discount"
+                - set: "total_price"
+                  from: "total_price"
+                - create: "image"
+                  foreach: "image"
+                  from: "image"
+                  actions:
+                  - set: "$item"
+                    from: "$item"
+                - set: "quantity"
+                  from: "quantity"
+              - set: "output.total_base_price"
+                from: "input.total_base_price"
+              - set: "output.total_discount"
+                from: "input.total_discount"
+              - set: "output.total_price"
+                from: "input.total_price"
+              - set: "output.created_at"
+                from: "input.created_at"
+              - set: "output.updated_at"
+                from: "input.updated_at"
+              - set: "output.user_id"
+                from: "input.user_id"
+              version: "1.0.0"
+        - operations:
+          - "Update Cart"
+          execute:
+          - map:
+              title: "RequestMap"
+              inputs:
+                input:
+                  schema:
+                    description: ""
+                    type: "object"
+                    properties:
+                      cart_details:
+                        type: "object"
+                        properties:
+                          session_id:
+                            type: "string"
+                            name: "session_id"
+                          cart_items:
+                            type: "array"
+                            items:
+                              properties:
+                                quantity:
+                                  type: "string"
+                                  name: "quantity"
+                                sku_id:
+                                  type: "string"
+                                  name: "sku_id"
+                              type: "object"
+                            name: "cart_items"
+                        name: "cart_details"
+                    example: "{  \r\n    \"cart_details\":{\r\n      \"session_id\"\
+                      :\"ddsd-ssd-sd-sds\",\r\n      \"cart_items\": [{\r\n      \
+                      \                \"quantity\":\"3\",\r\n                   \
+                      \   \"sku_id\":\"S1368433309753\"\r\n                      }\r\
+                      \n                     ]\r\n                     }\r\n}"
+                  variable: "request.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    description: ""
+                    type: "object"
+                    properties:
+                      cart_details:
+                        type: "object"
+                        properties:
+                          session_id:
+                            type: "string"
+                          cart_items:
+                            type: "array"
+                            items:
+                              properties:
+                                quantity:
+                                  type: "string"
+                                sku_id:
+                                  type: "string"
+                              type: "object"
+                    example: "{  \r\n    \"cart_details\":{\r\n      \"session_id\"\
+                      :\"ddsd-ssd-sd-sds\",\r\n      \"cart_items\": [{\r\n      \
+                      \                \"quantity\":\"3\",\r\n                   \
+                      \   \"sku_id\":\"S1368433309753\"\r\n                      }\r\
+                      \n                     ]\r\n                     }\r\n}"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.cart_details.session_id"
+                from: "input.cart_details.session_id"
+              - create: "output.cart_details.cart_items"
+                foreach: "input.cart_details.cart_items"
+                from: "input.cart_details.cart_items"
+                actions:
+                - set: "quantity"
+                  from: "quantity"
+                - set: "sku_id"
+                  from: "sku_id"
+              version: "1.0.0"
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "PUT"
+              cache-response: "no-cache"
+              cache-ttl: 900
+              version: "1.0.0"
+              target-url: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-retail/backend-cart-api/carts/$(request.parameters.cart_id)"
+          - map:
+              title: "ResponseMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.cart_id"
+                from: "input.cart_id"
+              - set: "output.session_id"
+                from: "input.session_id"
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "name"
+                  from: "name"
+                - set: "sku_url"
+                  from: "sku_url"
+                - set: "price"
+                  from: "price"
+                - set: "currency"
+                  from: "currency"
+                - set: "discount"
+                  from: "discount"
+                - set: "total_price"
+                  from: "total_price"
+                - create: "image"
+                  foreach: "image"
+                  from: "image"
+                  actions:
+                  - set: "$item"
+                    from: "$item"
+                - set: "quantity"
+                  from: "quantity"
+              - set: "output.total_base_price"
+                from: "input.total_base_price"
+              - set: "output.total_discount"
+                from: "input.total_discount"
+              - set: "output.total_price"
+                from: "input.total_price"
+              - set: "output.created_at"
+                from: "input.created_at"
+              - set: "output.updated_at"
+                from: "input.updated_at"
+              - set: "output.user_id"
+                from: "input.user_id"
+              version: "1.0.0"
+        - operations:
+          - "Delete Cart"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "DELETE"
+              cache-response: "no-cache"
+              cache-ttl: 900
+              version: "1.0.0"
+              target-url: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-retail/backend-cart-api/carts/$(request.parameters.cart_id)"
+        - operations:
+          - "Add Cart Items"
+          execute:
+          - map:
+              title: "RequestMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/CartItems"
+                  variable: "request.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/CartItems"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "quantity"
+                  from: "quantity"
+              version: "1.0.0"
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "POST"
+              cache-response: "no-cache"
+              cache-ttl: 900
+              version: "1.0.0"
+              target-url: "https://api.us.apiconnect.ibmcloud.com//novshadshaikitcinfotechcom-dev/itc-retail/backend-cart-api/carts/$(request.parameters.cart_id)/items"
+          - map:
+              title: "ResponseMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.cart_id"
+                from: "input.cart_id"
+              - set: "output.session_id"
+                from: "input.session_id"
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "name"
+                  from: "name"
+                - set: "sku_url"
+                  from: "sku_url"
+                - set: "price"
+                  from: "price"
+                - set: "currency"
+                  from: "currency"
+                - set: "discount"
+                  from: "discount"
+                - set: "total_price"
+                  from: "total_price"
+                - create: "image"
+                  foreach: "image"
+                  from: "image"
+                  actions:
+                  - set: "$item"
+                    from: "$item"
+                - set: "quantity"
+                  from: "quantity"
+              - set: "output.total_base_price"
+                from: "input.total_base_price"
+              - set: "output.total_discount"
+                from: "input.total_discount"
+              - set: "output.total_price"
+                from: "input.total_price"
+              - set: "output.created_at"
+                from: "input.created_at"
+              - set: "output.updated_at"
+                from: "input.updated_at"
+              - set: "output.user_id"
+                from: "input.user_id"
+              version: "1.0.0"
+        - operations:
+          - "Update Cart Items"
+          execute:
+          - map:
+              title: "RequestMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/CartItems"
+                  variable: "request.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/CartItems"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "quantity"
+                  from: "quantity"
+              version: "1.0.0"
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "PUT"
+              cache-response: "no-cache"
+              cache-ttl: 900
+              version: "1.0.0"
+              target-url: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-retail/backend-cart-api/carts/$(request.parameters.cart_id)/items"
+          - map:
+              title: "ResponseMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.cart_id"
+                from: "input.cart_id"
+              - set: "output.session_id"
+                from: "input.session_id"
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "name"
+                  from: "name"
+                - set: "sku_url"
+                  from: "sku_url"
+                - set: "price"
+                  from: "price"
+                - set: "currency"
+                  from: "currency"
+                - set: "discount"
+                  from: "discount"
+                - set: "total_price"
+                  from: "total_price"
+                - create: "image"
+                  foreach: "image"
+                  from: "image"
+                  actions:
+                  - set: "$item"
+                    from: "$item"
+                - set: "quantity"
+                  from: "quantity"
+              - set: "output.total_base_price"
+                from: "input.total_base_price"
+              - set: "output.total_discount"
+                from: "input.total_discount"
+              - set: "output.total_price"
+                from: "input.total_price"
+              - set: "output.created_at"
+                from: "input.created_at"
+              - set: "output.updated_at"
+                from: "input.updated_at"
+              - set: "output.user_id"
+                from: "input.user_id"
+              version: "1.0.0"
+        - operations:
+          - "Delete Cart Item"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "DELETE"
+              cache-response: "no-cache"
+              cache-ttl: 900
+              version: "1.0.0"
+              target-url: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-retail/backend-cart-api/carts/$(request.parameters.cart_id)/items"
+          - map:
+              title: "ResponseMap"
+              inputs:
+                input:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+                input_1:
+                  schema:
+                    description: ""
+                    type: "object"
+                    properties:
+                      Message:
+                        type: "string"
+                        name: "Message"
+                    example: "{\r\n    \"Message\": \"Cart Deleted successfuly.\"\r\
+                      \n}"
+                  variable: "message.body"
+                  content: "application/json"
+              outputs:
+                output:
+                  schema:
+                    $ref: "#/definitions/Cart"
+                  variable: "message.body"
+                  content: "application/json"
+                output_1:
+                  schema:
+                    description: ""
+                    type: "object"
+                    properties:
+                      Message:
+                        type: "string"
+                        name: "Message"
+                    example: "{\r\n    \"Message\": \"Cart Deleted successfuly.\"\r\
+                      \n}"
+                  variable: "message.body"
+                  content: "application/json"
+              actions:
+              - set: "output.cart_id"
+                from: "input.cart_id"
+              - set: "output.session_id"
+                from: "input.session_id"
+              - create: "output.cart_items"
+                foreach: "input.cart_items"
+                from: "input.cart_items"
+                actions:
+                - set: "sku_id"
+                  from: "sku_id"
+                - set: "name"
+                  from: "name"
+                - set: "sku_url"
+                  from: "sku_url"
+                - set: "price"
+                  from: "price"
+                - set: "currency"
+                  from: "currency"
+                - set: "discount"
+                  from: "discount"
+                - set: "total_price"
+                  from: "total_price"
+                - create: "image"
+                  foreach: "image"
+                  from: "image"
+                  actions:
+                  - set: "$item"
+                    from: "$item"
+                - set: "quantity"
+                  from: "quantity"
+              - set: "output.total_base_price"
+                from: "input.total_base_price"
+              - set: "output.total_discount"
+                from: "input.total_discount"
+              - set: "output.total_price"
+                from: "input.total_price"
+              - set: "output.created_at"
+                from: "input.created_at"
+              - set: "output.updated_at"
+                from: "input.updated_at"
+              - set: "output.user_id"
+                from: "input.user_id"
+              - set: "output_1.Message"
+                from: "input_1.Message"
+              version: "1.0.0"
+        otherwise: []
+        version: "1.0.0"
+    catch: []
+security: []
