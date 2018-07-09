@@ -1,0 +1,58 @@
+---
+product: "1.0.0"
+info:
+  name: "airlines-product"
+  title: "Airlines product"
+  version: "1.0.0"
+visibility:
+  view:
+    enabled: true
+    type: "public"
+    tags: []
+    orgs: []
+  subscribe:
+    enabled: true
+    type: "authenticated"
+    tags: []
+    orgs: []
+apis:
+  airportnearby:
+    $ref: "airportnearby_1.0.0.yaml"
+  airresesrvationseatavailability:
+    $ref: "airresesrvationseatavailability_1.0.0.yaml"
+  airportcodefrontend:
+    $ref: "airportcodefrontend_1.0.0.yaml"
+  airportcodes:
+    $ref: "airportcodes_1.0.0.yaml"
+  airshoppingbaggage:
+    $ref: "airshoppingbaggage_1.0.0.yaml"
+  airshoppingbaggagefront:
+    $ref: "airshoppingbaggagefront_1.0.0.yaml"
+  airshoppingoneway:
+    $ref: "airshoppingoneway_1.0.0.yaml"
+  airshoppingonewayfront:
+    $ref: "airshoppingonewayfront_1.0.0.yaml"
+  airshoppingroundtrip:
+    $ref: "airshoppingroundtrip_1.0.0.yaml"
+  airshoppingroundtripfront:
+    $ref: "airshoppingroundtripfront_1.0.0.yaml"
+  flightschedule:
+    $ref: "flightschedule_1.0.0.yaml"
+  flightschedule-api:
+    $ref: "flightschedule-api_1.0.0.yaml"
+  order-create-rest:
+    $ref: "order-create-rest_1.0.0.yaml"
+  orderseat-rest:
+    $ref: "orderseat-rest_1.0.0.yaml"
+  seatavailability:
+    $ref: "seatavailability_1.0.0.yaml"
+  confidential-client-oauth-provider:
+    $ref: "confidential-client-oauth-provider_1.0.0.yaml"
+plans:
+  default:
+    title: "Default Plan"
+    description: "Default Plan"
+    approval: false
+    rate-limit:
+      hard-limit: false
+      value: "100/hour"
