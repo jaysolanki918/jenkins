@@ -1,0 +1,41 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "customer-ripple-accounts"
+  title: "CUSTOMER RIPPLE ACCOUNTS"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/customer-ripple-accounts"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions: {}
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - gatewayscript:
+        title: "gatewayscript"
+        version: "1.0.0"
+        source: "session.output.write('{\"result\":{\"account_data\":{\"Account\"\
+          :\"rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn\",\"Balance\":\"10XRP\",\"Flags\"\
+          :\"1\",\"LedgerEntryType\":\"abc123\",\"OwnerCount\":\"10\",\"PreviousTxnID\"\
+          :\"aa11\",\"PreviousTxnLgrSeq\":\"222\",\"Sequence\":\"345\",\"index\":\"\
+          xxx123\"},\"ledger_current_index\":\"123\",\"status\":\"success\",\"validated\"\
+          :\"True\"}}');\r\napim.output('application/json');"
+    catch: []
+  phase: "realized"
+paths:
+  /customerrippleacc:
+    get:
+      responses:
+        200:
+          description: "200 OK"
+definitions: {}
+tags: []
