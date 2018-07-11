@@ -1,0 +1,73 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "abcd"
+  title: "abcd"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/abcd"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  oauth-1:
+    type: "oauth2"
+    description: ""
+    flow: "accessCode"
+    scopes:
+      scope1: ""
+    authorizationUrl: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-hospitality/confidential/oauth2/authorize"
+    tokenUrl: "https://api.us.apiconnect.ibmcloud.com/novshadshaikitcinfotechcom-dev/itc-hospitality/confidential/oauth2/token"
+security:
+- oauth-1:
+  - "scope1"
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - switch:
+        title: "switch"
+        case:
+        - condition: "(request.parameters.par1=='1')"
+          execute:
+          - gatewayscript:
+              title: "gatewayscript"
+              version: "1.0.0"
+              source: "session.output.write('{\"result\":\"r1\"}');\napim.output('application/json');"
+        - condition: "(request.parameters.par1=='2')"
+          execute:
+          - gatewayscript:
+              title: "gatewayscript"
+              version: "1.0.0"
+              source: "session.output.write('{\"result\":\"r2\"}');\napim.output('application/json');"
+        - otherwise:
+          - gatewayscript:
+              title: "gatewayscript"
+              version: "1.0.0"
+              source: "session.output.write('{\"result\":\"r2\"}');\napim.output('application/json');"
+        version: "1.0.0"
+  phase: "realized"
+  catalogs:
+    Enterprise Portal Test: {}
+    BANKING: {}
+paths:
+  /abb:
+    get:
+      responses:
+        200:
+          description: "200 OK"
+      parameters:
+      - name: "par1"
+        type: "string"
+        required: true
+        in: "query"
+      tags:
+      - "example"
+definitions: {}
+tags: []
