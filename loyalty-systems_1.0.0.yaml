@@ -1,0 +1,68 @@
+---
+product: "1.0.0"
+info:
+  name: "loyalty-systems"
+  title: "Loyalty Systems"
+  version: "1.0.0"
+visibility:
+  view:
+    enabled: true
+    type: "public"
+    tags: []
+    orgs: []
+  subscribe:
+    enabled: true
+    type: "authenticated"
+    tags: []
+    orgs: []
+apis:
+  loyalityauth:
+    $ref: "loyalityauth_1.0.0.yaml"
+  pointofsale:
+    $ref: "pointofsale_1.0.0.yaml"
+  User-Registration:
+    $ref: "User-Registration_1.0.0.yaml"
+plans:
+  test-plan:
+    title: "Test Plan"
+    description: "The Test API plan provides an appropriate API service level for\
+      \ developers to test their application against."
+    apis: {}
+    rate-limits:
+      rate-limit-1:
+        hard-limit: true
+        value: "100/1hour"
+  standard-plan:
+    title: "Standard Plan"
+    description: "The Standard API plan provides an appropriate API service level\
+      \ for developers who are starting to build an application"
+    apis: {}
+    billing-model:
+      provider: "stripe"
+      model: "stripe_monthly_fixed"
+      currency: "USD"
+      amount: 100000
+      trial-period-days: 0
+      externalPlanId: null
+      livemode: false
+    rate-limits:
+      rate-limit-1:
+        hard-limit: true
+        value: "50/1second"
+  production-plan:
+    title: "Production Plan"
+    description: "The Production API plan provides an appropriate API service level\
+      \ for applications in production."
+    apis: {}
+    billing-model:
+      provider: "stripe"
+      model: "stripe_monthly_fixed"
+      currency: "USD"
+      amount: 2500000
+      trial-period-days: 0
+      externalPlanId: null
+      livemode: false
+    rate-limits:
+      rate-limit-1:
+        hard-limit: true
+        value: "1000/1second"
