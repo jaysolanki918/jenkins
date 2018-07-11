@@ -1,0 +1,69 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "payment-cancel"
+  title: "PAYMENT CANCEL"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/payment-cancel"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions: {}
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - gatewayscript:
+        title: "gatewayscript"
+        version: "1.0.0"
+        source: "session.output.write('{\"trx_id\":\"1234\",\"status\":\"successful\"\
+          }');\napim.output('application/json');\n"
+    catch:
+    - errors: []
+      execute:
+      - switch:
+          title: "switch"
+          case:
+          - condition: "(message.status.code=='300')"
+            execute:
+            - gatewayscript:
+                title: "gatewayscript"
+                version: "1.0.0"
+                source: "session.output.write('{\"error\":\"300\",\"error_description\"\
+                  :\"Multiple Choices\"}');\r\napim.output('application/json');"
+          - condition: "(message.status.code=='301')"
+            execute:
+            - gatewayscript:
+                title: "gatewayscript"
+                version: "1.0.0"
+                source: "session.output.write('{\"error\":\"301\",\"error_description\"\
+                  :\"Moved \"}');\r\napim.output('application/json');"
+          - condition: "(message.status.code=='302')"
+            execute:
+            - gatewayscript:
+                title: "gatewayscript"
+                version: "1.0.0"
+                source: "session.output.write('{\"error\":\"302\",\"error_description\"\
+                  :\"Found\"}');\r\napim.output('application/json');"
+          version: "1.0.0"
+  phase: "realized"
+paths:
+  /paymentcancel:
+    get:
+      responses:
+        200:
+          description: "Payment canceled successfully."
+        401:
+          description: "Unauthorized request. Details returned in the JSON document."
+        403:
+          description: "Resource is not available. Details returned in the JSON document."
+        500:
+          description: "Internal server error."
+tags: []

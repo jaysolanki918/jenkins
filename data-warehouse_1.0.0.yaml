@@ -1,0 +1,48 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "data-warehouse"
+  title: "Data warehouse"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/data-warehouse"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions: {}
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - gatewayscript:
+        title: "gatewayscript"
+        version: "1.0.0"
+        source: "session.output.write('{\"status\":\"successful login to datawarehouse!!\"\
+          }');\napim.output('application/json');"
+  phase: "realized"
+paths:
+  /search/warehouse:
+    post:
+      responses:
+        200:
+          description: "200 OK"
+      tags:
+      - "warehouse"
+      summary: "access data with basic security for internal employees"
+      operationId: "SDW1"
+      description: "secure datawarehouse"
+      parameters:
+      - name: "Payload"
+        required: true
+        in: "body"
+        schema:
+          type: "object"
+        description: "Search warehouse data via Elastic Search"
+definitions: {}
+tags: []

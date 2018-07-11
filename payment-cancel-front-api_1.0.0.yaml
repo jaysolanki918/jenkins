@@ -1,0 +1,113 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "payment-cancel-front-api"
+  title: "PAYMENT CANCEL FRONT API"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/payment-cancel-front-api"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions:
+  oauth:
+    type: "oauth2"
+    description: ""
+    flow: "implicit"
+    scopes:
+      scope1: ""
+    authorizationUrl: ""
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - invoke:
+        target-url: "https://api.us.apiconnect.ibmcloud.com/techgeek6234-techdev/development/payment-cancel/paymentcancel"
+        verb: "GET"
+    - map:
+        title: "map"
+        inputs:
+          input:
+            schema:
+              description: ""
+              type: "object"
+              properties:
+                trx_id:
+                  type: "string"
+                  name: "trx_id"
+                status:
+                  type: "string"
+                  name: "status"
+              example: "{\"trx_id\":\"123\",\"status\":\"canceled\"}"
+            variable: "message.body"
+            content: "application/json"
+        outputs:
+          output:
+            schema:
+              description: ""
+              type: "object"
+              properties:
+                trx_id:
+                  type: "string"
+                  name: "trx_id"
+                status:
+                  type: "string"
+                  name: "status"
+              example: "{\"trx_id\":\"123\",\"status\":\"canceled\"}"
+            variable: "message.body"
+            content: "application/json"
+        actions:
+        - set: "output.trx_id"
+          from: "input.trx_id"
+        - set: "output.status"
+          from: "input.status"
+        version: "1.0.0"
+    catch:
+    - errors:
+      - "ConnectionError"
+      execute:
+      - switch:
+          title: "switch"
+          case:
+          - condition: "message.status.code=='300'"
+            execute:
+            - gatewayscript:
+                title: "gatewayscript"
+                version: "1.0.0"
+                source: "session.output.write('{\"error\":\"300\",\"error_description\"\
+                  :\"Multiple Choices\"}');\r\napim.output('application/json');"
+          - condition: "message.status.code==301"
+            execute:
+            - gatewayscript:
+                title: "gatewayscript"
+                version: "1.0.0"
+                source: "session.output.write('{\"error\":\"301\",\"error_description\"\
+                  :\"Moved\"}');\r\napim.output('application/json');"
+          - condition: "(message.status.code=='302')"
+            execute:
+            - gatewayscript:
+                title: "gatewayscript"
+                version: "1.0.0"
+                source: "session.output.write('{\"error\":\"302\",\"error_description\"\
+                  :\"found\"}');\r\napim.output('application/json');"
+          version: "1.0.0"
+    - errors: []
+      execute: []
+  phase: "realized"
+paths:
+  /paymentcancel:
+    get:
+      responses:
+        200:
+          description: "200 OK"
+definitions: {}
+tags: []
+security:
+- oauth:
+  - "scope1"
